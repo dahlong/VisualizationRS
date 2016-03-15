@@ -10,61 +10,75 @@
 	<properties>
 		<springsec.version>4.0.4.RELEASE</springsec.version>
 		<spring.version>4.2.5.RELEASE</spring.version>
-		<jersey-version>1.19</jersey-version>
-		<jersey-test-framework>2.5.1</jersey-test-framework>
+		<!-- <jersey-version>1.19</jersey-version> -->
+		<jersey-version>2.8</jersey-version>
+		<jersey-test-framework>2.22.2</jersey-test-framework>
 		<slf4j-logging>1.7.6</slf4j-logging>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
-			<artifactId>jersey-test-framework-provider-jetty</artifactId>
-			<version>${jersey-test-framework}</version>
+		    <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+		    <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+		    <version>${jersey-version}</version>
+		    <scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.jersey</groupId>
+			<groupId>com.google.collections</groupId>
+			<artifactId>google-collections</artifactId>
+			<version>1.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-server</artifactId>
 			<version>${jersey-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.jersey.contribs</groupId>
-			<artifactId>jersey-apache-client</artifactId>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
 			<version>${jersey-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.jersey.contribs</groupId>
-			<artifactId>jersey-spring</artifactId>
-			<version>${jersey-version}</version>
+    		<groupId>org.glassfish.jersey.containers</groupId>
+    		<!-- Note if you are using Servlet 3.0 you can drop the "-core" suffix -->
+    		<artifactId>jersey-container-servlet-core</artifactId>
+    		<version>${jersey-version}</version>
+    	</dependency>	
+		<dependency>
+		<groupId>org.glassfish.jersey.ext</groupId>
+          <artifactId>jersey-spring3</artifactId>
+		<version>${jersey-version}</version>
 			<exclusions>
 				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-core</artifactId>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-beans</artifactId>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-context</artifactId>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-web</artifactId>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-aop</artifactId>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-json</artifactId>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
 			<version>${jersey-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.jersey</groupId>
+			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-client</artifactId>
 			<version>${jersey-version}</version>
 		</dependency>
@@ -180,37 +194,37 @@
 	</dependencies>
 	<build>
 		<finalName>VisualizationRS</finalName>
-	<plugins>
-		<plugin>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jetty-maven-plugin</artifactId>
-			<version>8.1.16.v20140903</version>
-			<configuration>
-			<scanIntervalSeconds>10</scanIntervalSeconds>
-			<connectors>
-			<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-			<port>8080</port>
-			<maxIdleTime>60000</maxIdleTime>
-			</connector>
-			</connectors>
-			</configuration>
-			<executions>
-				<execution>
-					<id>start-jetty</id>
-					<phase>test</phase>
-					<goals>
-						<goal>deploy-war</goal>
-					</goals>
-				</execution>
-				<execution>
-					<id>stop-jetty</id>
-					<phase>post-integration-test</phase>
-					<goals>
-						<goal>stop</goal>
-					</goals>
-				</execution>
-			</executions>
-		</plugin>
-	</plugins>
+		<plugins>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>8.1.16.v20140903</version>
+				<configuration>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<connectors>
+						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+							<port>8080</port>
+							<maxIdleTime>60000</maxIdleTime>
+						</connector>
+					</connectors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>start-jetty</id>
+						<phase>test</phase>
+						<goals>
+							<goal>deploy-war</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>stop-jetty</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 </project>
