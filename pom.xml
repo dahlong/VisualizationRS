@@ -207,23 +207,26 @@
 							<maxIdleTime>60000</maxIdleTime>
 						</connector>
 					</connectors>
+                    <webApp>
+                        <contextPath>/VisualizationRS</contextPath>
+                    </webApp>
 				</configuration>
-				<executions>
-					<execution>
-						<id>start-jetty</id>
-						<phase>test</phase>
-						<goals>
-							<goal>deploy-war</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>stop-jetty</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<id>start-jetty</id> -->
+<!-- 						<phase>test</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>deploy-war</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 					<execution> -->
+<!-- 						<id>stop-jetty</id> -->
+<!-- 						<phase>post-integration-test</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>stop</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
 			</plugin>
 		</plugins>
 	</build>
