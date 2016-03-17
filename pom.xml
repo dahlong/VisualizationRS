@@ -200,43 +200,10 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.3.7.v20160115</version>
 				<configuration>
-<<<<<<< HEAD
 					<webApp>
 						<contextPath>/VisualizationRS</contextPath>
 					</webApp>
 				</configuration>
-				<!-- <configuration> -->
-				<!-- <jettyXml>jetty.xml,jetty-ssl.xml,jetty-https.xml</jettyXml> -->
-				<!-- </configuration> -->
-=======
-					<scanIntervalSeconds>10</scanIntervalSeconds>
-					<connectors>
-						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-							<port>8080</port>
-							<maxIdleTime>60000</maxIdleTime>
-						</connector>
-					</connectors>
-                    <webApp>
-                        <contextPath>/VisualizationRS</contextPath>
-                    </webApp>
-				</configuration>
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<id>start-jetty</id> -->
-<!-- 						<phase>test</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>deploy-war</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 					<execution> -->
-<!-- 						<id>stop-jetty</id> -->
-<!-- 						<phase>post-integration-test</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>stop</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
->>>>>>> master
 			</plugin>
 		</plugins>
 	</build>

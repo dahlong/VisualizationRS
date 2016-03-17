@@ -18,17 +18,10 @@
 	</properties>
 	<dependencies>
 		<dependency>
-<<<<<<< HEAD
 			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
 			<artifactId>jersey-test-framework-provider-grizzly2</artifactId>
 			<version>${jersey-version}</version>
 			<scope>test</scope>
-=======
-		    <groupId>org.glassfish.jersey.test-framework.providers</groupId>
-		    <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
-		    <version>${jersey-version}</version>
-		    <scope>test</scope>
->>>>>>> master
 		</dependency>
 		<dependency>
 			<groupId>com.google.collections</groupId>
@@ -47,7 +40,6 @@
 		<!-- <version>${jersey-version}</version> -->
 		<!-- </dependency> -->
 		<dependency>
-<<<<<<< HEAD
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<!-- Note if you are using Servlet 3.0 you can drop the "-core" suffix -->
 			<!-- <artifactId>jersey-container-servlet-core</artifactId> -->
@@ -58,56 +50,32 @@
 			<groupId>org.glassfish.jersey.ext</groupId>
 			<artifactId>jersey-spring3</artifactId>
 			<version>${jersey-version}</version>
-=======
-			<groupId>org.glassfish.jersey.core</groupId>
-			<artifactId>jersey-client</artifactId>
-			<version>${jersey-version}</version>
-		</dependency>
-		<dependency>
-    		<groupId>org.glassfish.jersey.containers</groupId>
-    		<!-- Note if you are using Servlet 3.0 you can drop the "-core" suffix -->
-    		<artifactId>jersey-container-servlet-core</artifactId>
-    		<version>${jersey-version}</version>
-    	</dependency>	
-		<dependency>
-		<groupId>org.glassfish.jersey.ext</groupId>
-          <artifactId>jersey-spring3</artifactId>
-		<version>${jersey-version}</version>
->>>>>>> master
 			<exclusions>
 				<exclusion>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-core</artifactId>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
 				</exclusion>
 				<exclusion>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-beans</artifactId>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
 				</exclusion>
 				<exclusion>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context</artifactId>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
 				</exclusion>
 				<exclusion>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-web</artifactId>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
 				</exclusion>
 				<exclusion>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-aop</artifactId>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-aop</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
-<<<<<<< HEAD
-=======
-			<version>${jersey-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.core</groupId>
-			<artifactId>jersey-client</artifactId>
->>>>>>> master
 			<version>${jersey-version}</version>
 		</dependency>
 		<!-- Spring -->
@@ -228,7 +196,6 @@
 		<finalName>VisualizationRS</finalName>
 		<plugins>
 			<plugin>
-<<<<<<< HEAD
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.3.7.v20160115</version>
@@ -237,42 +204,6 @@
 						<contextPath>/VisualizationRS</contextPath>
 					</webApp>
 				</configuration>
-				<!-- <configuration> -->
-				<!-- <jettyXml>jetty.xml,jetty-ssl.xml,jetty-https.xml</jettyXml> -->
-				<!-- </configuration> -->
-=======
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>8.1.16.v20140903</version>
-				<configuration>
-					<scanIntervalSeconds>10</scanIntervalSeconds>
-					<connectors>
-						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-							<port>8080</port>
-							<maxIdleTime>60000</maxIdleTime>
-						</connector>
-					</connectors>
-                    <webApp>
-                        <contextPath>/VisualizationRS</contextPath>
-                    </webApp>
-				</configuration>
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<id>start-jetty</id> -->
-<!-- 						<phase>test</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>deploy-war</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 					<execution> -->
-<!-- 						<id>stop-jetty</id> -->
-<!-- 						<phase>post-integration-test</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>stop</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
->>>>>>> master
 			</plugin>
 		</plugins>
 	</build>
