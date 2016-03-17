@@ -22,6 +22,6 @@ public class SampleRESTJerseyTest extends JerseyTest {
 	@Test
 	public void test2() {
 		final String hello = target("/rest/sayHelloByName/James").request().get(String.class);
-		assertEquals("Hello World, James", hello);
+		assertEquals("Hi~James", hello);
 	}
 }

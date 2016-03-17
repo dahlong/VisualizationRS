@@ -1,23 +1,20 @@
-package org.narl.hrms.visual.rest;
+package org.narl.hrms.visual.service;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.narl.hrms.visual.base.BaseTestCase;
-import org.narl.hrms.visual.service.impl.TestServiceImpl;
+import org.narl.hrms.visual.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = BaseTestCase.class, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(locations = { "file:src/main/resources/applicationContext.xml" })
 public class SampleServiceTestCase {
 	
 	@Autowired
-	TestServiceImpl mytest ;
+	TestService mytest ;
 	
 	@Test
 	public void sample(){

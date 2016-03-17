@@ -5,6 +5,7 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 
+
 public class ApplicationConfig extends ResourceConfig {
 
 	private Logger logger = Logger.getLogger(ApplicationConfig.class);

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<<<<<<< HEAD
 <testsuite tests="2" failures="0" name="org.narl.hrms.visual.rest.SampleRESTJerseyTest" time="0.937" errors="0" skipped="0">
+=======
+<testsuite tests="2" failures="0" name="org.narl.hrms.visual.rest.SampleRESTJerseyTest" time="0.665" errors="0" skipped="0">
+>>>>>>> Configuration_of_spring-mvc_and_Server_Sent_Event
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="E:\MyWorkingArea\JavaCodingTool\jdk8u60\jre\bin"/>
@@ -44,7 +48,11 @@
     <property name="java.vm.specification.version" value="1.8"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="E:\MyWorkingArea\JavaCodingTool\jdk8u60\jre"/>
+<<<<<<< HEAD
     <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher clean package jetty:run-war"/>
+=======
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher jetty:run-war"/>
+>>>>>>> Configuration_of_spring-mvc_and_Server_Sent_Event
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="user.language" value="zh"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -63,6 +71,11 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
+<<<<<<< HEAD
   <testcase classname="org.narl.hrms.visual.rest.SampleRESTJerseyTest" name="test2" time="0.83"/>
   <testcase classname="org.narl.hrms.visual.rest.SampleRESTJerseyTest" name="test1" time="0.107"/>
+=======
+  <testcase classname="org.narl.hrms.visual.rest.SampleRESTJerseyTest" name="test2" time="0.65"/>
+  <testcase classname="org.narl.hrms.visual.rest.SampleRESTJerseyTest" name="test1" time="0.015"/>
+>>>>>>> Configuration_of_spring-mvc_and_Server_Sent_Event
 </testsuite>
