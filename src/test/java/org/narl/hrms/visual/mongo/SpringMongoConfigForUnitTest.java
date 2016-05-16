@@ -1,11 +1,7 @@
 package org.narl.hrms.visual.mongo;
 
-import org.narl.hrms.visual.mongo.service.BusinessTripRepo;
-import org.narl.hrms.visual.mongo.service.BusinessTripServiceImpl;
-import org.narl.hrms.visual.mongo.service.OvertimeRepo;
-import org.narl.hrms.visual.mongo.service.OvertimeServiceImpl;
-import org.narl.hrms.visual.mongo.service.PresentTimeRepo;
-import org.narl.hrms.visual.mongo.service.PresentTimeServiceImpl;
+import org.narl.hrms.visual.mongo.service.CommondRepo;
+import org.narl.hrms.visual.mongo.service.CommondServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -21,7 +17,7 @@ public class SpringMongoConfigForUnitTest {
 	
 	@Bean
 	public MongoDbFactory mongoDbFactory() throws Exception {
-		return new SimpleMongoDbFactory(new MongoClient(), "hrvisual");
+		return new SimpleMongoDbFactory(new MongoClient("192.168.187.128",27017), "hrvisual");
 	}
 
 	@Bean
@@ -30,18 +26,16 @@ public class SpringMongoConfigForUnitTest {
 		return mongoTemplate;
 	}
 
-	@Bean
-	public OvertimeRepo getOvertimeService() {
-		return new OvertimeServiceImpl();
-    }
+	
 	
 	@Bean
-	public BusinessTripRepo getBusinessTripService() {
-		return new BusinessTripServiceImpl();
+	public CommondRepo getCommondService() {
+		return new CommondServiceImpl();
     }
 	
-	@Bean
-	public PresentTimeRepo getPresentTimeService() {
-		return new PresentTimeServiceImpl();
-    }
+	
+//	@Bean
+//	public LeaveTypesRepo getLeaveTypesService() {
+//		return new LeaveTypesServiceImpl();
+//    }
 }

@@ -56,9 +56,46 @@
 <!-- 	<import resource="applicationContext-persistence.xml" /> -->
 <!-- 	<import resource="ldap.xml"/> -->
 
+
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
+		destroy-method="close">
+		<property name="driverClassName">
+		<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+		<property name="url">
+		<value>jdbc:oracle:thin:@hrdev.narl.org.tw:1524:TESTDEV</value>
+		</property>
+		<property name="username">
+		<value>apps</value>
+		</property>
+		<property name="password">
+		<value>apps</value>
+		</property>
+		<property name="initialSize">
+		<value>2</value>
+		</property>
+		<property name="maxActive">
+		<value>5</value>
+		</property>
+		<property name="maxIdle">
+		<value>2</value>
+		</property>
+	</bean>
+
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
 	<!-- mongo -->
-	<mongo:mongo host="127.0.0.1" port="27017" />
-	<mongo:db-factory dbname="hrvisual" />
+	<!-- <mongo:mongo host="${mongo.host}" port="${mongo.port}"> 
+	<mongo:db-factory host="192.168.187.128" port="27017" dbname="hrvisual" />-->
+	  <mongo:mongo host="192.168.187.128" port="27017" />
+	<mongo:db-factory dbname="hrvisual" mongo-ref="mongo" />
+	
+
+
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
 	</bean> 
