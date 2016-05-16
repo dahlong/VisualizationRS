@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.bson.Document;
 import org.narl.hrms.visual.mongo.service.CommondServiceImpl;
+import org.narl.hrms.visual.rest.output.EmpOutput;
 import org.narl.hrms.visual.rest.output.LeaveTypesOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,8 @@ public class LeaveTypesDataService {
 	CommondServiceImpl commondServiceImpl;
 	
 	String collectionName="LEAVE_TYPE_";
-			
+		
+	
 	/**
 	 *  角色:1,2
 	 * 只選組織，部門與人員為全選
@@ -48,8 +50,15 @@ public class LeaveTypesDataService {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Document> postFindLeaveOrgTotal(@FormParam("org_id") String org_id,	@FormParam("year") String yearString) {
 		
-		collectionName+=yearString;
-		if (!commondServiceImpl.collectionExisted(collectionName))
+		logger.info("postFindLeaveOrgTotal>>  org_id: " +org_id +",yearString: "+yearString );
+		
+		//角色:1, 可能中心為全選
+//		if (yearString==null || org_id.equals("-1"))
+		if (yearString==null )	
+			return new ArrayList<Document>();
+		
+		String collectName=this.collectionName+yearString;
+		if (!commondServiceImpl.collectionExisted(collectName))
 			return new ArrayList<Document>();
 		
 		final List<Document> result=new ArrayList<Document>();
@@ -60,7 +69,7 @@ public class LeaveTypesDataService {
 			 
 			 Criteria criteriaDefinition = new Criteria();
 			 if (!org_id.equals("-1")) {
-				 criteriaDefinition.andOperator(Criteria.where("Total."+ferial_name).gte(0), Criteria.where("org_id").is(org_id));
+				 criteriaDefinition.andOperator(Criteria.where("Total").exists(true), Criteria.where("Total."+ferial_name).gte(0), Criteria.where("org_id").is(org_id));
 			 } else {
 			 		 criteriaDefinition=Criteria.where("Total."+ferial_name).gte(0);
 			 }
@@ -72,7 +81,7 @@ public class LeaveTypesDataService {
 				  );
 			 
 			 AggregationResults groupResults = mongoTemplate.aggregate(
-					    aggregation, collectionName, LeaveTypesOutput.class);
+					    aggregation, collectName, LeaveTypesOutput.class);
 					  
 			  List<LeaveTypesOutput> aggList = groupResults.getMappedResults();
 			  for (LeaveTypesOutput a : aggList) {
@@ -89,6 +98,7 @@ public class LeaveTypesDataService {
 	/**
 	 * 角色:1,2,3
 	 * 只選組織與部門，人員為全選
+	 * org_id<>-1 & dept_id<>-1
 	 */
 	@POST
 	@Path("postFindLeaveDeptTotal")
@@ -96,8 +106,13 @@ public class LeaveTypesDataService {
 	public List<Document> postFindLeaveDeptTotal(@FormParam("org_id") String org_id,	@FormParam("year") String yearString,
 			@FormParam("dept_id") final String dept_id) {
 		
-		collectionName+=yearString;
-		if (!commondServiceImpl.collectionExisted(collectionName))
+		logger.info("postFindLeaveDeptTotal>>  org_id: " +org_id +", dept_id: +" +dept_id +", yearString: "+yearString );
+		
+		if (yearString==null || org_id.equals("-1") || dept_id.equals("-1"))
+			return new ArrayList<Document>();
+		
+		String collectName=this.collectionName+yearString;
+		if (!commondServiceImpl.collectionExisted(collectName))
 			return new ArrayList<Document>();
 		
 		final List<Document> result=new ArrayList<Document>();
@@ -107,21 +122,16 @@ public class LeaveTypesDataService {
 			 
 			 Criteria criteriaDefinition = new Criteria();
 			 String groupName="dept_name";
-			 if (dept_id.equals("-1")) {
-					criteriaDefinition.andOperator(Criteria.where(ferial_name).gte(0), Criteria.where("org_id").is(Integer.valueOf(org_id)));
-					groupName= "org_name";
-			 } else {
-				criteriaDefinition.andOperator(Criteria.where(ferial_name).gte(0), Criteria.where("org_id").is(Integer.valueOf(org_id)),Criteria.where("dept_id").is(dept_id));
-			 }
+			criteriaDefinition.andOperator(Criteria.where("Total").exists(true), Criteria.where("Total."+ferial_name).gte(0), Criteria.where("dept_id").is(dept_id));
 			 
 			 Aggregation aggregation = newAggregation(
 					 match(criteriaDefinition),   
-					 group(groupName).sum(ferial_name).as("total"),
+					 group(groupName).sum("Total."+ferial_name).as("total"),
 					 sort(Sort.Direction.DESC, "total") 
 				  );
 			 
 			 AggregationResults groupResults = mongoTemplate.aggregate(
-					    aggregation, collectionName, LeaveTypesOutput.class);
+					    aggregation, collectName, LeaveTypesOutput.class);
 					  
 			  List<LeaveTypesOutput> aggList = groupResults.getMappedResults();
 			  for (LeaveTypesOutput a : aggList) {
@@ -141,11 +151,15 @@ public class LeaveTypesDataService {
 	@POST
 	@Path("postFindLeaveEmpTotal")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public List<Document> postFindLeaveEmpTotal(@FormParam("org_id") String org_id,	@FormParam("year") String yearString,
-			@FormParam("emp_id") final String emp_id) {
+	public List<Document> postFindLeaveEmpTotal(@FormParam("year") String yearString, @FormParam("emp_id") final String emp_id) {
 		
-		collectionName+=yearString;
-		if (!commondServiceImpl.collectionExisted(collectionName))
+		logger.info("postFindLeaveDeptTotal>>  emp_id: " +emp_id +", yearString: "+yearString );
+		
+		if (yearString==null ||  emp_id.equals("-1"))
+			return new ArrayList<Document>();
+		
+		String collectName=this.collectionName+yearString;
+		if (!commondServiceImpl.collectionExisted(collectName))
 			return new ArrayList<Document>();
 		
 		final List<Document> result=new ArrayList<Document>();
@@ -155,12 +169,7 @@ public class LeaveTypesDataService {
 			 
 			 Criteria criteriaDefinition = new Criteria();
 			 String groupName="emp_name";
-			 if (emp_id.equals("-1")) {
-					criteriaDefinition.andOperator(Criteria.where(ferial_name).gte(0), Criteria.where("org_id").is(Integer.valueOf(org_id)));
-					groupName= "org_name";
-			 } else {
-				criteriaDefinition.andOperator(Criteria.where(ferial_name).gte(0), Criteria.where("org_id").is(Integer.valueOf(org_id)),Criteria.where("emp_id").is(emp_id));
-			 }
+			criteriaDefinition.andOperator(Criteria.where("Total").exists(false), Criteria.where(ferial_name).gte(0),Criteria.where("emp_id").is(emp_id));
 			 
 			 Aggregation aggregation = newAggregation(
 					 match(criteriaDefinition),   
@@ -169,7 +178,7 @@ public class LeaveTypesDataService {
 				  );
 			 
 			 AggregationResults groupResults = mongoTemplate.aggregate(
-					    aggregation, collectionName, LeaveTypesOutput.class);
+					    aggregation, collectName, LeaveTypesOutput.class);
 					  
 			  List<LeaveTypesOutput> aggList = groupResults.getMappedResults();
 			  for (LeaveTypesOutput a : aggList) {

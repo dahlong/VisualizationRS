@@ -57,6 +57,8 @@ public class CommonDataService {
 	@Path("postOrgList")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<OrgOutput> getOrgList(@FormParam("login_id") String login_id,	@FormParam("year") String yearString,	@FormParam("role") String role){
+	
+		logger.info("postDeptList>> login id : " +",yearString: "+yearString +", role:" +role);
 		
 		if (yearString==null || login_id==null || login_id.equals(""))
 			return new ArrayList<OrgOutput>();
@@ -102,6 +104,7 @@ public class CommonDataService {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<DeptOutput> getDeptList(@FormParam("org_id") String org_id, @FormParam("login_id") String login_id,	
 			@FormParam("year") String yearString, @FormParam("role") String role){
+		logger.info("postDeptList>> login id : " +login_id+ ", org_id: " +org_id +",yearString: "+yearString +", role:" +role);
 		
 		if (yearString==null || org_id.equals("-1") || login_id==null || login_id.equals(""))
 			return new ArrayList<DeptOutput>();
@@ -153,6 +156,8 @@ public class CommonDataService {
 	public List<EmpOutput> postEmpList(@FormParam("org_id") String org_id, @FormParam("dept_id") String dept_id,
 			 @FormParam("login_id") String login_id, @FormParam("year") String yearString, @FormParam("role") String role){
 
+		logger.info("postEmpList>> login id : " +login_id+ ", org_id: " +org_id +", dept_id:" +dept_id +",yearString: "+yearString +", role:" +role);
+		
 		//if (yearString==null || org_id.equals("-1") || dept_id.equals("-1") || login_id==null || login_id.equals(""))
 		if (yearString==null || org_id.equals("-1") || login_id==null || login_id.equals(""))
 			return new ArrayList<EmpOutput>();
@@ -223,25 +228,15 @@ public class CommonDataService {
 	}
 
 	public EmpOutput getEmpOutput(String login_id, String yearString) {
-		
+		logger.info("Login>> login id : " +login_id+ ", yearString: "+yearString);
+
 		String collectName=this.collectionName+yearString;
 		if (!commondServiceImpl.collectionExisted(collectName))
 			return null;
 		
 		Criteria criteriaDefinition = new Criteria();
 		criteriaDefinition.andOperator(Criteria.where("emp_id").is(login_id));
-
-//		 Aggregation aggregation=newAggregation(
-//				 match(criteriaDefinition),   
-//				 group("emp_id", "emp_name","emp_number","org_id","org_name","dept_id","dept_name","user_id","current_role"),
-//				 sort(Sort.Direction.ASC, "emp_id") 
-//			  );
-//
-//		 AggregationResults groupResults = mongoTemplate.aggregate(
-//				    aggregation, collectName, EmpOutput.class);
-//		 
-//		  List<EmpOutput> result = groupResults.getMappedResults();	
-		  
+	  
 		Query query = new Query();
 		query.addCriteria(criteriaDefinition);
 		List<EmpOutput> result = mongoTemplate.find(query, EmpOutput.class, collectName);
