@@ -88,7 +88,7 @@ public class LeaveTypesDataService {
 				  Document n1=new Document("id", a.getIid());
 				  n1.append("ferial_name", ferial_name);
 				  n1.append("leave_hours", a.getTotal());
-				  result.add(n1);	
+				  result.add(n1);
 			  }
 		 }
 		return result;

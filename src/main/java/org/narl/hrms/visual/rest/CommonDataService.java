@@ -200,7 +200,7 @@ public class CommonDataService {
 
 	
 	/**
-	 * get last 7 years list
+	 * get last 3 years list
 	 * @return
 	 */
 	@POST
@@ -209,7 +209,7 @@ public class CommonDataService {
 	public List<String> getYearList(){
 	    List<String> resultList=new ArrayList<String>();
 	    Calendar cal=Calendar.getInstance();
-	    for (int i=0; i<7;i++) {
+	    for (int i=0; i<3;i++) {
 	    	int y=cal.get(Calendar.YEAR)-i;
 	    	resultList.add(String.valueOf(y));
 	    }
