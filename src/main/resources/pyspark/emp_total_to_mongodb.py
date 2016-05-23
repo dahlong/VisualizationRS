@@ -23,7 +23,7 @@ sqlContext = SQLContext(sc)
 #strYear='2015'
 strYear=sys.argv[1]
 
-collectionName = 'LEAVE_TYPE_EMP_%s' % strYear
+collectionName = 'LEAVE_TYPE_%s' % strYear
 #if the collection exises in mongodb, then drop it
 #if collName in db.collection_names():
 #        db[collName].drop()            
@@ -36,7 +36,7 @@ def getRddWithoutHeader(csvfname, fieldname):
     d=r1.map(lambda k: k.split(","))
     return d
 
-arrayferialname=["特別休假","加班或假日出差轉補休","生理假","傷病假","婚假","家庭照顧假",                     "事假","產檢假","陪產假","產假","喪假","國內公假","國外公假","公傷病假", "安胎假"]
+arrayferialname=["特別休假","加班或假日出差轉補休","生理假","傷病假","婚假","家庭照顧假","事假","產檢假","陪產假","產假","喪假","國內公假","國外公假","公傷病假", "安胎假"]
 def getFerialDict(fList, start):
     mydic={}
     for i in range(0,len(arrayferialname),1):
@@ -45,7 +45,7 @@ def getFerialDict(fList, start):
     return mydic
 
 #build up schema
-structFields=[StructField("org_id", StringType()), StructField("org_name", StringType()),               StructField("dept_id", StringType()), StructField("dept_name", StringType()),               StructField("emp_id", StringType()), StructField("emp_name", StringType()),               StructField("emp_number", StringType()), StructField("month", IntegerType())]
+structFields=[StructField("org_id", StringType()), StructField("org_name", StringType()),StructField("dept_id", StringType()), StructField("dept_name", StringType()),StructField("emp_id", StringType()), StructField("emp_name", StringType()),StructField("emp_number", StringType()), StructField("month", IntegerType())]
 for i in range(1,len(arrayferialname) +1,1):
     structFields.append(StructField(arrayferialname[i-1], IntegerType()))
 
@@ -85,5 +85,5 @@ for a in line_sort:
     result=db[collectionName].insert_one(rowDb)
 
 
-print "============finish to insert org total into mongodb============", datetime.datetime.now()
+print "============finish to insert emp total into mongodb============", datetime.datetime.now()
 
