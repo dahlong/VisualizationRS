@@ -13,11 +13,13 @@ import csv
 from collections import OrderedDict
 from pymongo import MongoClient
 import datetime
+import sys
 
 print cx_Oracle.version
 os.environ["NLS_LANG"] = "AMERICAN_AMERICA.AL32UTF8"
 
-strYear='2015'
+#strYear='2015'
+strYear=sys.argv[1]
 ysDate=strYear+'/1/1'
 yeDate=strYear+'/12/31'
 
@@ -50,7 +52,7 @@ def get_employee_role(user_id):
     curRole.close()
     return l_role 
 
-QUERY_EMP="select v.legal_entity_id as org_id, v.legal_entity_name as org_name,        v.dept_id as dept_id, v.dept_name as dept_name,        v.employee_id as emp_id,v.emp_name as emp_name, v.employee_number as employee_number,        v.date_start as start_date, v.actual_termination_date as end_date, v.user_id as user_id        from narl_login_emp_info_hist_v v where v.date_start<=TO_DATE('%s', 'yyyy/mm/dd')        AND NVL(v.actual_termination_date,TO_DATE('9999/12/31','yyyy/mm/dd'))>=TO_DATE('%s', 'yyyy/mm/dd')        AND v.legal_entity_id>81        order by v.legal_entity_id, v.employee_id"
+QUERY_EMP="select v.legal_entity_id as org_id, v.legal_entity_name as org_name,v.dept_id as dept_id, v.dept_name as dept_name,v.employee_id as emp_id,v.emp_name as emp_name, v.employee_number as employee_number,v.date_start as start_date, v.actual_termination_date as end_date, v.user_id as user_id from narl_login_emp_info_hist_v v where v.date_start<=TO_DATE('%s', 'yyyy/mm/dd') AND NVL(v.actual_termination_date,TO_DATE('9999/12/31','yyyy/mm/dd'))>=TO_DATE('%s', 'yyyy/mm/dd') AND v.legal_entity_id>81 order by v.legal_entity_id, v.employee_id"
 
 
 print 'query start...', datetime.datetime.now()
@@ -69,7 +71,7 @@ for row in emp_list:
     rowDb["emp_name"]=str(row[5])
     rowDb["emp_number"]=str(row[6])
     rowDb["start_date"]=row[7].strftime('%Y/%m/%d')
-    arrayData=[str(row[0]),str(row[1]),str(row[2]),str(row[3]),str(row[4]),str(row[5]),                str(row[6]),row[7].strftime('%Y/%m/%d')]
+    arrayData=[str(row[0]),str(row[1]),str(row[2]),str(row[3]),str(row[4]),str(row[5]),str(row[6]),row[7].strftime('%Y/%m/%d')]
     if row[8] is None:
         rowDb["end_date"]=""
         arrayData.append("")
@@ -96,57 +98,3 @@ wirteDate(csvfilname, arrayCVS)
 cur.close()
 print 'query end.....', datetime.datetime.now()
 con.close()
-
-
-# In[33]:
-
-# 從 oracle sql 取得人員的角色，input is user_id
-import cx_Oracle
-import os
-import os.path
-
-print cx_Oracle.version
-os.environ["NLS_LANG"] = "AMERICAN_AMERICA.AL32UTF8"
-
-con = cx_Oracle.connect('apps/apps0677@127.0.0.1:1524/PROD')
-print con.version
-cur = con.cursor()
-
-out_parameter = cur.var(cx_Oracle.STRING)
-#0203134-2810; 1503051-16871-
-execute_func  = cur.callfunc('NARL_TL_MAIN_PKG.GETNARLROLE', cx_Oracle.STRING, [16871])
-print execute_func
-
-cur.close()
-print 'query end.....'
-con.close()
-
-
-# In[8]:
-
-#create distinct org_id & org_name
-from pyspark import SparkContext
-from pyspark.sql.types import *
-
-sqlContext = SQLContext(sc)
-
-schemaString = "id,name"
-fields = [StructField(field_name, StringType(), True) for field_name in schemaString.split(',')]
-schema = StructType(fields)
-print schema
-
-inputFile='ORG_DEPT_EMP_2015.csv'
-lines = sc.textFile(inputFile)
-header=lines.first()
-
-linesHeader = lines.filter(lambda l: "org_id" in l)
-linesHeader.collect()
-
-linesNoHeader = lines.subtract(linesHeader)
-lines_temp = linesNoHeader.map(lambda k: k.split(",")).map(lambda p: (p[0], p[1]))
-lines_df = sqlContext.createDataFrame(lines_temp, schema)
-print lines_df.printSchema()
-#print lines_df.groupBy("org_id").count().show()
-lines_df.registerTempTable("tempTable")
-print sqlContext.sql("SELECT DISTINCT * FROM tempTable").show()
-
