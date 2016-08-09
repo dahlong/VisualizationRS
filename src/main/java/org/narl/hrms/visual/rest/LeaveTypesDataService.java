@@ -16,7 +16,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.bson.Document;
 import org.narl.hrms.visual.mongo.service.CommondServiceImpl;
-import org.narl.hrms.visual.rest.output.EmpOutput;
 import org.narl.hrms.visual.rest.output.LeaveTypesOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,12 +47,12 @@ public class LeaveTypesDataService {
 	@POST
 	@Path("postFindLeaveOrgTotal")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public List<Document> postFindLeaveOrgTotal(@FormParam("org_id") String org_id,	@FormParam("year") String yearString) {
+	public List<Document> postFindLeaveOrgTotal(@FormParam("org_id") String org_id,	@FormParam("year") String yearString,	
+			@FormParam("month") String monthString) {
 		
 		logger.info("postFindLeaveOrgTotal>>  org_id: " +org_id +",yearString: "+yearString );
 		
 		//角色:1, 可能中心為全選
-//		if (yearString==null || org_id.equals("-1"))
 		if (yearString==null )	
 			return new ArrayList<Document>();
 		
@@ -68,15 +67,21 @@ public class LeaveTypesDataService {
 			 String ferial_name=fs[i];
 			 
 			 Criteria criteriaDefinition = new Criteria();
+			 
+			 String whereCond="sum("+ferial_name+")";
+			 if (!monthString.equals("")) {
+				 whereCond=monthString+"_"+whereCond;
+			 }
+			 
 			 if (!org_id.equals("-1")) {
-				 criteriaDefinition.andOperator(Criteria.where("Total").exists(true), Criteria.where("Total."+ferial_name).gte(0), Criteria.where("org_id").is(org_id));
+				 criteriaDefinition.andOperator(Criteria.where("emp_id").exists(false), Criteria.where(whereCond).gte(0), Criteria.where("org_id").is(Integer.valueOf( org_id)));
 			 } else {
-			 		 criteriaDefinition=Criteria.where("Total."+ferial_name).gte(0);
+				 criteriaDefinition.andOperator(Criteria.where("emp_id").exists(false), Criteria.where(whereCond).gte(0));
 			 }
 			 
 			 Aggregation aggregation = newAggregation(
 					 match(criteriaDefinition),   
-					 group("org_name").sum("Total."+ferial_name).as("total"),
+					 group("org_name").sum(whereCond).as("total"),
 					 sort(Sort.Direction.DESC, "total") 
 				  );
 			 
@@ -104,7 +109,7 @@ public class LeaveTypesDataService {
 	@Path("postFindLeaveDeptTotal")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Document> postFindLeaveDeptTotal(@FormParam("org_id") String org_id,	@FormParam("year") String yearString,
-			@FormParam("dept_id") final String dept_id) {
+			@FormParam("dept_id") final String dept_id, @FormParam("month") String monthString) {
 		
 		logger.info("postFindLeaveDeptTotal>>  org_id: " +org_id +", dept_id: +" +dept_id +", yearString: "+yearString );
 		
@@ -122,11 +127,16 @@ public class LeaveTypesDataService {
 			 
 			 Criteria criteriaDefinition = new Criteria();
 			 String groupName="dept_name";
-			criteriaDefinition.andOperator(Criteria.where("Total").exists(true), Criteria.where("Total."+ferial_name).gte(0), Criteria.where("dept_id").is(dept_id));
+
+			 String whereCond="sum("+ferial_name+")";
+			 if (!monthString.equals("")) {
+				 whereCond=monthString+"_"+whereCond;
+			 }
+			 criteriaDefinition.andOperator(Criteria.where("emp_id").exists(false), Criteria.where(whereCond).gte(0), Criteria.where("dept_id").is(Integer.valueOf(dept_id)));
 			 
 			 Aggregation aggregation = newAggregation(
 					 match(criteriaDefinition),   
-					 group(groupName).sum("Total."+ferial_name).as("total"),
+					 group(groupName).sum(whereCond).as("total"),
 					 sort(Sort.Direction.DESC, "total") 
 				  );
 			 
@@ -151,7 +161,8 @@ public class LeaveTypesDataService {
 	@POST
 	@Path("postFindLeaveEmpTotal")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public List<Document> postFindLeaveEmpTotal(@FormParam("year") String yearString, @FormParam("emp_id") final String emp_id) {
+	public List<Document> postFindLeaveEmpTotal(@FormParam("year") String yearString, 
+			@FormParam("emp_id") final String emp_id, @FormParam("month") String monthString) {
 		
 		logger.info("postFindLeaveDeptTotal>>  emp_id: " +emp_id +", yearString: "+yearString );
 		
@@ -169,11 +180,17 @@ public class LeaveTypesDataService {
 			 
 			 Criteria criteriaDefinition = new Criteria();
 			 String groupName="emp_name";
-			criteriaDefinition.andOperator(Criteria.where("Total").exists(false), Criteria.where(ferial_name).gte(0),Criteria.where("emp_id").is(emp_id));
+			 
+			 String whereCond="sum("+ferial_name+")";
+			 if (!monthString.equals("")) {
+				 whereCond=monthString+"_"+whereCond;
+			 }
+			 
+			 criteriaDefinition.andOperator(Criteria.where("emp_id").exists(true), Criteria.where(whereCond).gte(0),Criteria.where("emp_id").is(Integer.valueOf( emp_id)));
 			 
 			 Aggregation aggregation = newAggregation(
 					 match(criteriaDefinition),   
-					 group(groupName).sum(ferial_name).as("total"),
+					 group(groupName).sum(whereCond).as("total"),
 					 sort(Sort.Direction.DESC, "total") 
 				  );
 			 

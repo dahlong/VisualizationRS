@@ -54,7 +54,7 @@ public class LeaveTypesTopService {
 	@Path("postFindLeaveAllTotalTop")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Document> postFindLeaveAllTotalTop(@FormParam("year") String yearString, @FormParam("org_id") String org_id,
-			@FormParam("ferial_name") String ferial_name, @FormParam("n") String n) {
+			@FormParam("ferial_name") String ferial_name, @FormParam("n") String n, @FormParam("month") String monthString) {
 		
 		logger.info("postFindLeaveAllTotalTop>>  org_id: " +org_id +", ferial_name: +" +ferial_name +", yearString: "+yearString +",n: " +n );
 		
@@ -68,18 +68,25 @@ public class LeaveTypesTopService {
 		final List<Document> result=new ArrayList<Document>();
 		 Aggregation aggregation =null;
 		 Criteria criteriaDefinition = new Criteria();
+		 
+		 String whereCond="sum("+ferial_name+")";
+		 if (!monthString.equals("")) {
+			 whereCond=monthString+"_"+whereCond;
+		 }
+		 
 		if (org_id.equals("-1")) {
-			criteriaDefinition.andOperator(Criteria.where("emp_id").exists(true), Criteria.where(ferial_name).gt(0));
+			criteriaDefinition.andOperator(Criteria.where("emp_id").exists(true), Criteria.where(whereCond).gt(0));
 		} else {
-			criteriaDefinition.andOperator(Criteria.where("emp_id").exists(true), Criteria.where(ferial_name).gt(0), Criteria.where("org_id").is(org_id));
+			criteriaDefinition.andOperator(Criteria.where("emp_id").exists(true), Criteria.where(whereCond).gt(0), Criteria.where("org_id").is(Integer.valueOf(org_id)));
 		}
+
 		aggregation = newAggregation(
 				 match(criteriaDefinition),   
-				 group("emp_name", "org_name").sum(ferial_name).as("total"),
+				 group("emp_name", "org_name").sum(whereCond).as("total"),
 				 sort(Sort.Direction.DESC, "total")  ,
 				 limit(Long.valueOf(n))
 			  );
-
+				
 		AggregationResults groupResults = mongoTemplate.aggregate(
 		    aggregation, collectName, LeaveTypesOutput.class);
 		  
@@ -106,7 +113,8 @@ public class LeaveTypesTopService {
 	@Path("postFindLeaveDeptTotalTop")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Document> postFindLeaveDeptTotal(@FormParam("year") String yearString,  @FormParam("org_id") String org_id,	
-			@FormParam("dept_id") final String dept_id,  @FormParam("ferial_name") String ferial_name,  @FormParam("n") String n) {
+			@FormParam("dept_id") final String dept_id,  @FormParam("ferial_name") String ferial_name,  @FormParam("n") String n,
+			@FormParam("month") String monthString) {
 		
 		logger.info("postFindLeaveDeptTotalTop>>  org_id: " +org_id +", dept_id: " +dept_id +", ferial_name: +" +ferial_name +", yearString: "+yearString +",n: " +n );
 		
@@ -117,18 +125,23 @@ public class LeaveTypesTopService {
 		if (!commondServiceImpl.collectionExisted(collectName))
 			return new ArrayList<Document>();
 		
+		String whereCond="sum("+ferial_name+")";
+		 if (!monthString.equals("")) {
+			 whereCond=monthString+"_"+whereCond;
+		 }
+		 
 		final List<Document> result=new ArrayList<Document>();
 		 Aggregation aggregation =null;
+		 
 		Criteria criteriaDefinition = new Criteria();
-		criteriaDefinition.andOperator(Criteria.where("emp_id").exists(true), Criteria.where(ferial_name).gt(0), Criteria.where("org_id").is(org_id),Criteria.where("dept_id").is(dept_id));
+		criteriaDefinition.andOperator(Criteria.where("emp_id").exists(true), Criteria.where(whereCond).gt(0), Criteria.where("org_id").is(Integer.valueOf(org_id)),Criteria.where("dept_id").is(Integer.valueOf(dept_id)));
 		
 		 aggregation = newAggregation(
 				 match(criteriaDefinition),   
-				 group("emp_name", "org_name").sum(ferial_name).as("total"),
+				 group("emp_name", "org_name").sum(whereCond).as("total"),
 				 sort(Sort.Direction.DESC, "total")  ,
 				 limit(Long.valueOf(n))
 			  );
-		 
 		 
 			AggregationResults groupResults = mongoTemplate.aggregate(
 			    aggregation, collectName, LeaveTypesOutput.class);
