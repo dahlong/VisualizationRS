@@ -69,9 +69,9 @@ public class LeaveTypesTopService {
 		 Aggregation aggregation =null;
 		 Criteria criteriaDefinition = new Criteria();
 		 
-		 String whereCond="sum("+ferial_name+")";
+		 String whereCond=""+ferial_name+"";
 		 if (!monthString.equals("")) {
-			 whereCond=monthString+"_"+whereCond;
+			 whereCond=monthString+"_sum("+whereCond+")";
 		 }
 		 
 		if (org_id.equals("-1")) {
@@ -125,9 +125,9 @@ public class LeaveTypesTopService {
 		if (!commondServiceImpl.collectionExisted(collectName))
 			return new ArrayList<Document>();
 		
-		String whereCond="sum("+ferial_name+")";
+		String whereCond=""+ferial_name+"";
 		 if (!monthString.equals("")) {
-			 whereCond=monthString+"_"+whereCond;
+			 whereCond=monthString+"_sum("+whereCond+")";
 		 }
 		 
 		final List<Document> result=new ArrayList<Document>();

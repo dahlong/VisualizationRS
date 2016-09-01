@@ -68,9 +68,9 @@ public class LeaveTypesDataService {
 			 
 			 Criteria criteriaDefinition = new Criteria();
 			 
-			 String whereCond="sum("+ferial_name+")";
+			 String whereCond=""+ferial_name+"";
 			 if (!monthString.equals("")) {
-				 whereCond=monthString+"_"+whereCond;
+				 whereCond=monthString+"_sum("+whereCond+")";
 			 }
 			 
 			 if (!org_id.equals("-1")) {
@@ -128,9 +128,9 @@ public class LeaveTypesDataService {
 			 Criteria criteriaDefinition = new Criteria();
 			 String groupName="dept_name";
 
-			 String whereCond="sum("+ferial_name+")";
+			 String whereCond=""+ferial_name+"";
 			 if (!monthString.equals("")) {
-				 whereCond=monthString+"_"+whereCond;
+				 whereCond=monthString+"_sum("+whereCond+")";
 			 }
 			 criteriaDefinition.andOperator(Criteria.where("emp_id").exists(false), Criteria.where(whereCond).gte(0), Criteria.where("dept_id").is(Integer.valueOf(dept_id)));
 			 
@@ -181,9 +181,9 @@ public class LeaveTypesDataService {
 			 Criteria criteriaDefinition = new Criteria();
 			 String groupName="emp_name";
 			 
-			 String whereCond="sum("+ferial_name+")";
+			 String whereCond=""+ferial_name+"";
 			 if (!monthString.equals("")) {
-				 whereCond=monthString+"_"+whereCond;
+				 whereCond=monthString+"_sum("+whereCond+")";
 			 }
 			 
 			 criteriaDefinition.andOperator(Criteria.where("emp_id").exists(true), Criteria.where(whereCond).gte(0),Criteria.where("emp_id").is(Integer.valueOf( emp_id)));
