@@ -73,7 +73,7 @@ public class CommonDataService {
 		if (role!=null && "1".equals(role)) {
 			
 		} else {
-			criteriaDefinition.andOperator(Criteria.where("emp_id").is(login_id));
+			criteriaDefinition.andOperator(Criteria.where("emp_id").is(Integer.valueOf(login_id)));
 		}
 		
 		 Aggregation aggregation=newAggregation(
@@ -115,12 +115,12 @@ public class CommonDataService {
 		
 		Criteria criteriaDefinition = new Criteria();
 		if (role!=null && "1".equals(role)) {
-				criteriaDefinition.andOperator(Criteria.where("org_id").is(org_id));
+				criteriaDefinition.andOperator(Criteria.where("org_id").is(Integer.valueOf(org_id)));
 				
 		} else if (role!=null && "2".equals(role)) {
-			criteriaDefinition.andOperator(Criteria.where("org_id").is(org_id));
+			criteriaDefinition.andOperator(Criteria.where("org_id").is(Integer.valueOf(org_id)));
 		} else {
-			criteriaDefinition.andOperator(Criteria.where("emp_id").is(login_id));
+			criteriaDefinition.andOperator(Criteria.where("emp_id").is(Integer.valueOf(login_id)));
 		}
 		
 		 Aggregation aggregation=newAggregation(
@@ -168,12 +168,12 @@ public class CommonDataService {
 		
 		Criteria criteriaDefinition = new Criteria();
 		if (role!=null && "4".equals(role)) {
-			criteriaDefinition.andOperator(Criteria.where("emp_id").is(login_id));
+			criteriaDefinition.andOperator(Criteria.where("emp_id").is(Integer.valueOf(login_id)));
 		}  else {
 			if (dept_id.equals("-1"))
-				criteriaDefinition.andOperator(Criteria.where("org_id").is(org_id));
+				criteriaDefinition.andOperator(Criteria.where("org_id").is(Integer.valueOf(org_id)));
 			else
-				criteriaDefinition.andOperator(Criteria.where("org_id").is(org_id), Criteria.where("dept_id").is(dept_id));
+				criteriaDefinition.andOperator(Criteria.where("org_id").is(Integer.valueOf(org_id)), Criteria.where("dept_id").is(Integer.valueOf(dept_id)));
 		}
 		
 		 Aggregation aggregation=newAggregation(
@@ -235,7 +235,7 @@ public class CommonDataService {
 			return null;
 		
 		Criteria criteriaDefinition = new Criteria();
-		criteriaDefinition.andOperator(Criteria.where("emp_id").is(login_id));
+		criteriaDefinition.andOperator(Criteria.where("emp_id").is(Integer.valueOf(login_id)));
 	  
 		Query query = new Query();
 		query.addCriteria(criteriaDefinition);
