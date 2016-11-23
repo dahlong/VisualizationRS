@@ -91,15 +91,9 @@
 	<!-- mongo -->
 	<!-- <mongo:mongo host="${mongo.host}" port="${mongo.port}"> 
 	<mongo:db-factory host="192.168.187.129" port="27017" dbname="hrvisual" />-->
-<<<<<<< HEAD
 	 <mongo:mongo host="localhost" port="27017" />
-=======
-	 <mongo:mongo host="192.168.187.131" port="27017" />
->>>>>>> refs/remotes/origin/master
 	<mongo:db-factory dbname="hrvisual" mongo-ref="mongo" />
 	
-
-
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
 	</bean> 
