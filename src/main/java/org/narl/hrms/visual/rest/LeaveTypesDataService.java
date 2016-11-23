@@ -8,6 +8,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -85,7 +86,7 @@ public class LeaveTypesDataService {
 					 sort(Sort.Direction.DESC, "total") 
 				  );
 			 
-			 AggregationResults groupResults = mongoTemplate.aggregate(
+			 AggregationResults<LeaveTypesOutput> groupResults = mongoTemplate.aggregate(
 					    aggregation, collectName, LeaveTypesOutput.class);
 					  
 			  List<LeaveTypesOutput> aggList = groupResults.getMappedResults();
@@ -140,7 +141,7 @@ public class LeaveTypesDataService {
 					 sort(Sort.Direction.DESC, "total") 
 				  );
 			 
-			 AggregationResults groupResults = mongoTemplate.aggregate(
+			 AggregationResults<LeaveTypesOutput> groupResults = mongoTemplate.aggregate(
 					    aggregation, collectName, LeaveTypesOutput.class);
 					  
 			  List<LeaveTypesOutput> aggList = groupResults.getMappedResults();
@@ -194,7 +195,7 @@ public class LeaveTypesDataService {
 					 sort(Sort.Direction.DESC, "total") 
 				  );
 			 
-			 AggregationResults groupResults = mongoTemplate.aggregate(
+			 AggregationResults<LeaveTypesOutput> groupResults = mongoTemplate.aggregate(
 					    aggregation, collectName, LeaveTypesOutput.class);
 					  
 			  List<LeaveTypesOutput> aggList = groupResults.getMappedResults();
@@ -208,7 +209,82 @@ public class LeaveTypesDataService {
 		return result;
 	}
 	
-	
+	/**
+	 * 角色:1,2,3,4 選組織，部門與人員 取得人員各類假別時數與平均時數
+	 */
+	@POST
+	@Path("postFindLeaveEmpTotalAvg")
+	@Produces({ MediaType.APPLICATION_JSON})
+	public List<Document> postFindLeaveEmpTotalAvg(@FormParam("year") String yearString,
+			@FormParam("emp_id") final String emp_id, @FormParam("month") String monthString) {
+
+		logger.info("postFindLeaveDeptTotal>>  emp_id: " + emp_id + ", yearString: " + yearString);
+
+		if (yearString == null || emp_id.equals("-1"))
+			return new ArrayList<Document>();
+
+		String collectName = this.collectionName + yearString;
+		if (!commondServiceImpl.collectionExisted(collectName))
+			return new ArrayList<Document>();
+
+		final List<Document> result = new ArrayList<Document>();
+		String[] fs = commondServiceImpl.ferial_names;
+		for (int i = 0; i < fs.length; i++) {
+			String ferial_name = fs[i];
+
+			Criteria criteriaDefinition = new Criteria();
+			String groupName = "emp_name";
+
+			String whereCond = "" + ferial_name + "";
+			//if (!monthString.equals("")) {
+			if (!"".equals(monthString)) {
+				whereCond = monthString + "_sum(" + whereCond + ")";
+			}
+
+			criteriaDefinition.andOperator(Criteria.where("emp_id").exists(true), //Criteria.where(whereCond).gte(0),
+					Criteria.where("emp_id").is(Integer.valueOf(emp_id)));
+
+			Aggregation aggregation = newAggregation(match(criteriaDefinition),
+					group(groupName).sum(whereCond).as("total"), sort(Sort.Direction.DESC, "total"));
+
+			AggregationResults<LeaveTypesOutput> groupResults = mongoTemplate.aggregate(aggregation, collectName, LeaveTypesOutput.class);
+
+			List<LeaveTypesOutput> aggList = groupResults.getMappedResults();
+			for (LeaveTypesOutput a : aggList) {
+				Document n1 = new Document("id", a.getIid());
+				n1.append("ferial_name", ferial_name);
+				n1.append("leave_hours", a.getTotal());
+				n1.append("category", "personal");
+				result.add(n1);
+			}
+			logger.info(">>>>>>>>1");
+			
+			// 組平均資料
+//			Criteria deptAvgCriteria = new Criteria();
+//			groupName = "dept_name";
+//			deptAvgCriteria.andOperator(Criteria.where("emp_id").exists(true), Criteria.where(whereCond).gte(0),
+//					Criteria.where("emp_id").is(Integer.valueOf(emp_id)));
+//			
+//			Aggregation deptAvgAggregation = newAggregation(match(deptAvgCriteria),
+//					group(groupName).avg(groupName).as("dept_avg"), sort(Sort.Direction.DESC, "total"));
+//			
+//			AggregationResults<LeaveTypesOutput> deptAvgResult = mongoTemplate.aggregate(deptAvgAggregation, collectName,
+//					LeaveTypesOutput.class);
+//
+//			List<LeaveTypesOutput> deptAvgList = deptAvgResult.getMappedResults();
+//			for(LeaveTypesOutput a : deptAvgList){
+//				Document n1 = new Document("id", a.getIid());
+//				n1.append("ferial_name", ferial_name);
+//				n1.append("leave_hours", a.getTotal());
+//				n1.append("category", "personal");
+//				result.add(n1);
+//			}
+			
+		}
+		logger.info(">>>>>>>>2");
+		logger.info(">>>>>>>>"+result.toString());
+		return result;
+	}
 
 }
 
