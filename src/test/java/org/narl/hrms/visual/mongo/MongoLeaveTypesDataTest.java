@@ -56,9 +56,6 @@ public class MongoLeaveTypesDataTest {
 		String collectionName="LEAVE_TYPE_"+strYear;
 		DBCollection collection = mongoTemplate.getCollection(collectionName);
 		System.out.println(">>" +collection.count());
-		{
-			
-		}
 		
 	}
 	
@@ -68,12 +65,12 @@ public class MongoLeaveTypesDataTest {
 //		assertEquals(200,testservice.count());
 		String strYear="2015";
 		String collectionName="LEAVE_TYPE_"+strYear;
-		DBCollection collection = mongoOperation.getCollection(collectionName);
-		{
-			System.out.println(">>Count=" +collection.count());
-		}
-		
-		{
+		DBCollection collection = mongoTemplate.getCollection(collectionName);
+//		{
+//			System.out.println(">>Count=" +collection.count());
+//		}
+//		
+//		{
 //			Query query = new Query(Criteria.where("org_id").is("82"));
 //			query.with(new Sort(Sort.Direction.DESC, "emp_id"));
 //			List<LeaveTypes> list = testservice.findByQuery(query, collectionName);
@@ -87,7 +84,7 @@ public class MongoLeaveTypesDataTest {
 			       DBObject obj = cursor.next();
 			       System.out.println("find by DBObject >>" +obj);
 			    }			
-		}		
+//		}		
 		
 		
 //		{
