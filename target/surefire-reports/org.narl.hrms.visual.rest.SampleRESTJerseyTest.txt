@@ -1,8 +1,0 @@
--------------------------------------------------------------------------------
-Test set: org.narl.hrms.visual.rest.SampleRESTJerseyTest
--------------------------------------------------------------------------------
-<<<<<<< HEAD
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.612 sec
-=======
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.763 sec
->>>>>>> Configuration_of_spring-mvc_and_Server_Sent_Event

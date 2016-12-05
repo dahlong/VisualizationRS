@@ -1,8 +1,0 @@
--------------------------------------------------------------------------------
-Test set: org.narl.hrms.visual.service.SampleServiceTestCase
--------------------------------------------------------------------------------
-<<<<<<< HEAD:target/surefire-reports/org.narl.hrms.visual.rest.SampleServiceTestCase.txt
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.818 sec
-=======
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.91 sec
->>>>>>> Configuration_of_spring-mvc_and_Server_Sent_Event:target/surefire-reports/org.narl.hrms.visual.service.SampleServiceTestCase.txt

@@ -12,6 +12,16 @@ public class LeaveTypesOutput {
 	
 	private String dept_name ;	
 	
+	private Float average ;
+	
+	public Float getAverage() {
+		return average;
+	}
+
+	public void setAverage(Float average) {
+		this.average = average;
+	}
+
 	public String getDept_name() {
 		return dept_name;
 	}

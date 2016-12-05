@@ -68,7 +68,7 @@ public class MongoAnnotationTest {
 					 sort(Sort.Direction.DESC, "total") 
 				  );
 			 
-			 AggregationResults groupResults = mongoTemplate.aggregate(
+			 AggregationResults<LeaveTypesOutput> groupResults = mongoTemplate.aggregate(
 					    aggregation, collectionName, LeaveTypesOutput.class);
 					  
 			  List<LeaveTypesOutput> aggList = groupResults.getMappedResults();

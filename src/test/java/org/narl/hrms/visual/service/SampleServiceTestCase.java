@@ -1,8 +1,8 @@
 package org.narl.hrms.visual.service;
 
 import static org.junit.Assert.*;
-import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.narl.hrms.visual.rest.LeaveTypesDataService;
 import org.narl.hrms.visual.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -16,7 +16,10 @@ public class SampleServiceTestCase {
 	@Autowired
 	TestService mytest ;
 	
-	@Test
+	@Autowired
+	LeaveTypesDataService leaveTypesDataService ;
+	
+	//@Test
 	public void sample(){
 		
 		assertEquals("Hi~dahlong",mytest.sayHi("dahlong"));
