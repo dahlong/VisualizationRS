@@ -87,7 +87,7 @@ public class LeaveTypesTopService {
 				 limit(Long.valueOf(n))
 			  );
 				
-		AggregationResults<LeaveTypesOutput> groupResults = mongoTemplate.aggregate(
+		AggregationResults groupResults = mongoTemplate.aggregate(
 		    aggregation, collectName, LeaveTypesOutput.class);
 		  
 		  List<LeaveTypesOutput> aggList = groupResults.getMappedResults();
@@ -98,9 +98,12 @@ public class LeaveTypesTopService {
 			  n1.append("leave_hours", a.getTotal());
 			  result.add(n1);	
 		  }
-	  
+
+		  
 		return result;
 	}
+
+	
 
 	/**
 	 * 角色:1,2,3
@@ -140,7 +143,7 @@ public class LeaveTypesTopService {
 				 limit(Long.valueOf(n))
 			  );
 		 
-			AggregationResults<LeaveTypesOutput> groupResults = mongoTemplate.aggregate(
+			AggregationResults groupResults = mongoTemplate.aggregate(
 			    aggregation, collectName, LeaveTypesOutput.class);
 			  
 			  List<LeaveTypesOutput> aggList = groupResults.getMappedResults();
