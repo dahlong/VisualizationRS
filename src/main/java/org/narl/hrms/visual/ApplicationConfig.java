@@ -7,7 +7,7 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 
-@ApplicationPath("/")
+@ApplicationPath("/") // path 改為 "/rest" ， test.html 網頁才能顯示 
 public class ApplicationConfig extends ResourceConfig {
 
 	private Logger logger = Logger.getLogger(ApplicationConfig.class);
