@@ -82,7 +82,7 @@ public class CommonDataService {
 				 sort(Sort.Direction.ASC, "org_id") 
 			  );
 
-		 AggregationResults<OrgOutput> groupResults = mongoTemplate.aggregate(
+		 AggregationResults groupResults = mongoTemplate.aggregate(
 				    aggregation, collectName, OrgOutput.class);
 		 
 		  List<OrgOutput> aggList = groupResults.getMappedResults();	
@@ -129,7 +129,7 @@ public class CommonDataService {
 				 sort(Sort.Direction.ASC, "dept_id") 
 			  );
 
-		 AggregationResults<DeptOutput> groupResults = mongoTemplate.aggregate(
+		 AggregationResults groupResults = mongoTemplate.aggregate(
 				    aggregation, collectName, DeptOutput.class);
 		 
 		  List<DeptOutput> aggList = groupResults.getMappedResults();	
@@ -182,7 +182,7 @@ public class CommonDataService {
 				 sort(Sort.Direction.ASC, "emp_id") 
 			  );
 
-		 AggregationResults<EmpOutput> groupResults = mongoTemplate.aggregate(
+		 AggregationResults groupResults = mongoTemplate.aggregate(
 				    aggregation, collectName, EmpOutput.class);
 		 
 		  List<EmpOutput> aggList = groupResults.getMappedResults();	
