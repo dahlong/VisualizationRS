@@ -1,0 +1,44 @@
+<html>
+<head>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<!-- <script src="http://dimplejs.org/dist/dimple.v1.1.1.min.js"></script> -->
+<script src="http://dimplejs.org/dist/dimple.v2.2.0.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+	var jqxhr = $.post(
+					"http://localhost:8080/VisualizationRS/rest/leavetypesdata/postFindLeaveEmpTotalAvg/",
+					{
+						"org_id" : "84",
+						"dept_id" : "458",
+						"year" : "2015",
+						"emp_id" : "3980",
+						"month" : ""
+					}, "jsonp").done(function() {
+				json_result = jqxhr.responseJSON;
+				//alert(JSON.stringify(json_result));
+				plotDimple(json_result, "test");
+			}).fail(function() {
+				responseError(jqxhr, "請檢查網路連線");
+			});
+	
+	function plotDimple(data,title){
+		var svg = dimple.newSvg("#chartContainer", "100%", "100%");
+		var myChart = new dimple.chart(svg, data);
+	      myChart.setBounds(60, 30, 510, 330)
+	      myChart.addCategoryAxis("x", ["ferial_name","category"]);
+	      myChart.addMeasureAxis("y", "leave_hours");
+	      myChart.addSeries("category", dimple.plot.bar);
+	      myChart.addLegend(65, 10, 510, 20, "right");
+	      myChart.draw();
+		
+	}
+	</script>
+</head>
+
+<body>
+
+	<div id="chartContainer"></div>
+
+</body>
+</html>
