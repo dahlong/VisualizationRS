@@ -121,71 +121,6 @@ public class LeaveTypesByService {
 			 aggregationList.add(aggregation);
 		 }
 		 
-		 
-		 
-//		 List<Aggregation> aggregationList=new ArrayList<Aggregation>();
-//		 if (!by.equals("") && by.equals("month")) {
-//			 aggregationList.clear();
-//			 for (int i=1;i<=12;i++) {
-//				 whereCond=String.valueOf(i) + "_sum("+ferial_name+")";
-//				
-//				 Criteria criteriaDefinition = new Criteria();
-//				 if (!org_id.equals("-1")) {
-//					 criteriaDefinition.andOperator(Criteria.where("emp_id").exists(false), Criteria.where(whereCond).gte(0), Criteria.where("org_id").is(Integer.valueOf( org_id)));			 
-//				 } else {
-//					 criteriaDefinition.andOperator(Criteria.where("emp_id").exists(false), Criteria.where(whereCond).gte(0));			 
-//				 }
-//				 
-//				 Aggregation aggregation = newAggregation(
-//						 match(criteriaDefinition),   
-//						 group(groupName).sum(whereCond).as("total"),
-//						 sort(Sort.Direction.DESC, "total") 
-//					  );
-//				 aggregationList.add(aggregation);
-//			 }		
-//		 }
-//		 
-//		 if (!by.equals("") && by.equals("week")) {
-//			 aggregationList.clear();
-//			 for (int i=1;i<=7;i++) {			
-//				 whereCond=weeksMap.get(i)[0] + "_sum("+ferial_name+")";
-//				
-//				 Criteria criteriaDefinition = new Criteria();
-//				 if (!org_id.equals("-1")) {
-//					 criteriaDefinition.andOperator(Criteria.where("emp_id").exists(false), Criteria.where(whereCond).gte(0), Criteria.where("org_id").is(Integer.valueOf( org_id)));			 
-//				 } else {
-//					 criteriaDefinition.andOperator(Criteria.where("emp_id").exists(false), Criteria.where(whereCond).gte(0));			 
-//				 }
-//				
-//				 Aggregation aggregation = newAggregation(
-//						 match(criteriaDefinition),   
-//						 group(groupName).sum(whereCond).as("total"),
-//						 sort(Sort.Direction.DESC, "total") 
-//					  );
-//				 aggregationList.add(aggregation);
-//			 }		
-//		 }
-//		 
-//		 if (!by.equals("") && by.equals("day")) {
-//			 aggregationList.clear();
-//			 for (int i=1;i<=31;i++) {				 
-//				 whereCond="Day_" +String.valueOf(i) + "_sum("+ferial_name+")";
-//				
-//				 Criteria criteriaDefinition = new Criteria();
-//				 if (!org_id.equals("-1")) {
-//					 criteriaDefinition.andOperator(Criteria.where("emp_id").exists(false), Criteria.where(whereCond).gte(0), Criteria.where("org_id").is(Integer.valueOf( org_id)));			 
-//				 } else {
-//					 criteriaDefinition.andOperator(Criteria.where("emp_id").exists(false), Criteria.where(whereCond).gte(0));			 
-//				 }
-//				
-//				 Aggregation aggregation = newAggregation(
-//						 match(criteriaDefinition),   
-//						 group(groupName).sum(whereCond).as("total"),
-//						 sort(Sort.Direction.DESC, "total") 
-//					  );
-//				 aggregationList.add(aggregation);
-//			 }		
-//		 }
 		 List<Document> result= getDocuments(by, collectName, aggregationList);
 		return result;
 	}
@@ -248,59 +183,6 @@ public class LeaveTypesByService {
 			 aggregationList.add(aggregation);
 		 }
 		 
-		 
-//		 String whereCond="";		 
-//		 if (!by.equals("") && by.equals("month")) {
-//			 aggregationList.clear();
-//			 for (int i=1;i<=12;i++) {
-//				 whereCond=String.valueOf(i) + "_sum("+ferial_name+")";
-//				 
-//				 Criteria criteriaDefinition = new Criteria();	
-//				  criteriaDefinition.andOperator(Criteria.where("emp_id").exists(false), Criteria.where(whereCond).gte(0), Criteria.where("dept_id").is(Integer.valueOf(dept_id)));
-//				 
-//				 Aggregation aggregation = newAggregation(
-//						 match(criteriaDefinition),   
-//						 group(groupName).sum(whereCond).as("total"),
-//						 sort(Sort.Direction.DESC, "total") 
-//					  );
-//				 aggregationList.add(aggregation);
-//			 }
-//		 }
-//		 
-//		 if (!by.equals("") && by.equals("week")) {
-//			 aggregationList.clear();
-//			    for (int i=1;i<=7;i++) {				 
-//				 whereCond=weeksMap.get(i)[0]  + "_sum("+ferial_name+")";
-//				 
-//				 Criteria criteriaDefinition = new Criteria();	
-//				  criteriaDefinition.andOperator(Criteria.where("emp_id").exists(false), Criteria.where(whereCond).gte(0), Criteria.where("dept_id").is(Integer.valueOf(dept_id)));
-//				 
-//				 Aggregation aggregation = newAggregation(
-//						 match(criteriaDefinition),   
-//						 group(groupName).sum(whereCond).as("total"),
-//						 sort(Sort.Direction.DESC, "total") 
-//					  );
-//				 aggregationList.add(aggregation);
-//			 }
-//		 }
-//		 
-//		 if (!by.equals("") && by.equals("day")) {
-//			 aggregationList.clear();
-//			 for (int i=1;i<=31;i++) {				 
-//				 whereCond="Day_" +String.valueOf(i)  + "_sum("+ferial_name+")";
-//				 
-//				 Criteria criteriaDefinition = new Criteria();	
-//				  criteriaDefinition.andOperator(Criteria.where("emp_id").exists(false), Criteria.where(whereCond).gte(0), Criteria.where("dept_id").is(Integer.valueOf(dept_id)));
-//				 
-//				 Aggregation aggregation = newAggregation(
-//						 match(criteriaDefinition),   
-//						 group(groupName).sum(whereCond).as("total"),
-//						 sort(Sort.Direction.DESC, "total") 
-//					  );
-//				 aggregationList.add(aggregation);
-//			 }
-//		 }
-
 		 List<Document> result= getDocuments(by, collectName, aggregationList);
 		return result;
 	}
@@ -359,60 +241,6 @@ public class LeaveTypesByService {
 				  );
 			 aggregationList.add(aggregation);
 		 } 
-		 
-		 
-//		 String whereCond="";		 
-//		 if (!by.equals("") && by.equals("month")) {
-//			 aggregationList.clear();
-//			 for (int i=1;i<=12;i++) {
-//				  whereCond=String.valueOf(i) + "_sum("+ferial_name+")";
-//				 
-//				 Criteria criteriaDefinition = new Criteria();
-//				 criteriaDefinition.andOperator(Criteria.where("emp_id").exists(true), Criteria.where(whereCond).gte(0),Criteria.where("emp_id").is(Integer.valueOf( emp_id)));
-//				 
-//				 Aggregation aggregation = newAggregation(
-//						 match(criteriaDefinition),   
-//						 group(groupName).sum(whereCond).as("total"),
-//						 sort(Sort.Direction.DESC, "total") 
-//					  );
-//				 aggregationList.add(aggregation);
-//			 }
-//		 }
-//		 
-//		 if (!by.equals("") && by.equals("week")) {
-//			 aggregationList.clear();
-//			 for (int i=1;i<=7;i++) {				 
-//				  whereCond=weeksMap.get(i)[0] + "_sum("+ferial_name+")";
-//				 
-//				 Criteria criteriaDefinition = new Criteria();
-//				 criteriaDefinition.andOperator(Criteria.where("emp_id").exists(true), Criteria.where(whereCond).gte(0),Criteria.where("emp_id").is(Integer.valueOf( emp_id)));
-//				 
-//				 Aggregation aggregation = newAggregation(
-//						 match(criteriaDefinition),   
-//						 group(groupName).sum(whereCond).as("total"),
-//						 sort(Sort.Direction.DESC, "total") 
-//					  );
-//				 aggregationList.add(aggregation); 
-//			 }
-//		 }
-//		 
-//		 if (!by.equals("") && by.equals("day")) {
-//			 aggregationList.clear();
-//			 for (int i=1;i<=31;i++) {				 
-//				  whereCond="Day_" +String.valueOf(i)  + "_sum("+ferial_name+")";
-//				 
-//				 Criteria criteriaDefinition = new Criteria();
-//				 criteriaDefinition.andOperator(Criteria.where("emp_id").exists(true), Criteria.where(whereCond).gte(0),Criteria.where("emp_id").is(Integer.valueOf( emp_id)));
-//				 
-//				 Aggregation aggregation = newAggregation(
-//						 match(criteriaDefinition),   
-//						 group(groupName).sum(whereCond).as("total"),
-//						 sort(Sort.Direction.DESC, "total") 
-//					  );
-//				 aggregationList.add(aggregation);
-//			 }
-//		 }
-		 
 		 List<Document> result= getDocuments(by, collectName, aggregationList);
 		return result;
 	}
